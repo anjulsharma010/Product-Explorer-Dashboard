@@ -61,6 +61,7 @@ const productsSlice = createSlice({
 
     // Fetch single product
     fetchProductRequest(state, _action: PayloadAction<string>) {
+      void _action;
       state.productDetailLoading = true;
       state.productDetailError = null;
       state.currentProduct = null;
@@ -77,6 +78,7 @@ const productsSlice = createSlice({
 
     // Fetch products by category
     fetchProductsByCategoryRequest(state, _action: PayloadAction<string>) {
+      void _action;
       state.loading = true;
       state.error = null;
     },
