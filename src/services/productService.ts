@@ -1,6 +1,6 @@
 import { Product } from '@/types';
 
-const BASE_URL = 'https://fakestoreapi.com';
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const productService = {
   async getProducts(): Promise<Product[]> {
