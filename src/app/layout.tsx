@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { FavoritesProvider } from "@/context/FavoritesContext";
+import ReduxProvider from "@/components/ReduxProvider";
 import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,12 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-gray-50 min-h-screen`}>
-        <FavoritesProvider>
+        <ReduxProvider>
           <Navbar />
           <main className="container mx-auto px-4 py-8">
             {children}
           </main>
-        </FavoritesProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

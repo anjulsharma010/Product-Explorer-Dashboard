@@ -5,7 +5,8 @@ import { Product } from "@/types";
 import ProductCard from "./ProductCard";
 import SearchBar from "./SearchBar";
 import CategoryFilter from "./CategoryFilter";
-import { useFavorites } from "@/context/FavoritesContext";
+import { useAppSelector } from "@/store/hooks";
+import { selectFavoriteIds } from "@/store/selectors/favoritesSelectors";
 
 interface ProductGridProps {
     initialProducts: Product[];
@@ -16,7 +17,7 @@ export default function ProductGrid({ initialProducts, categories }: ProductGrid
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
-    const { isFavorite } = useFavorites();
+    const favoriteIds = useAppSelector(selectFavoriteIds);
 
     const filteredProducts = useMemo(() => {
         return initialProducts.filter((product) => {
@@ -26,11 +27,11 @@ export default function ProductGrid({ initialProducts, categories }: ProductGrid
             const matchesCategory = selectedCategory
                 ? product.category === selectedCategory
                 : true;
-            const matchesFavorite = showFavoritesOnly ? isFavorite(product.id) : true;
+            const matchesFavorite = showFavoritesOnly ? favoriteIds.has(product.id) : true;
 
             return matchesSearch && matchesCategory && matchesFavorite;
         });
-    }, [initialProducts, searchTerm, selectedCategory, showFavoritesOnly, isFavorite]);
+    }, [initialProducts, searchTerm, selectedCategory, showFavoritesOnly, favoriteIds]);
 
     return (
         <div className="space-y-8">
@@ -74,3 +75,4 @@ export default function ProductGrid({ initialProducts, categories }: ProductGrid
         </div>
     );
 }
+

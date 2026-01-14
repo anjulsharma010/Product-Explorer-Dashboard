@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useFavorites } from "@/context/FavoritesContext";
+import { useAppSelector } from "@/store/hooks";
+import { selectFavoritesCount } from "@/store/selectors/favoritesSelectors";
 
 export default function Navbar() {
-    const { favorites } = useFavorites();
+    const favoritesCount = useAppSelector(selectFavoritesCount);
 
     return (
         <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -18,7 +19,7 @@ export default function Navbar() {
                     </Link>
                     <div className="relative">
                         {/* We can add a heart icon here later */}
-                        <span className="text-gray-600 font-medium">Favorites ({favorites.length})</span>
+                        <span className="text-gray-600 font-medium">Favorites ({favoritesCount})</span>
                     </div>
                 </div>
             </div>

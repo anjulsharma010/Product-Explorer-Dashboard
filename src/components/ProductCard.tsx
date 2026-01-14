@@ -3,22 +3,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types";
-import { useFavorites } from "@/context/FavoritesContext";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { addFavorite, removeFavorite } from "@/store/slices/favoritesSlice";
+import { selectIsFavorite } from "@/store/selectors/favoritesSelectors";
 
 interface ProductCardProps {
     product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-    const { isFavorite, addFavorite, removeFavorite } = useFavorites();
-    const favorite = isFavorite(product.id);
+    const dispatch = useAppDispatch();
+    const favorite = useAppSelector(selectIsFavorite(product.id));
 
     const toggleFavorite = (e: React.MouseEvent) => {
         e.preventDefault(); // Prevent navigation if clicking the heart
         if (favorite) {
-            removeFavorite(product.id);
+            dispatch(removeFavorite(product.id));
         } else {
-            addFavorite(product);
+            dispatch(addFavorite(product));
         }
     };
 
@@ -80,3 +82,4 @@ export default function ProductCard({ product }: ProductCardProps) {
         </Link>
     );
 }
+

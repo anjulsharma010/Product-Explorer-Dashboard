@@ -2,18 +2,20 @@
 
 import Image from "next/image";
 import { Product } from "@/types";
-import { useFavorites } from "@/context/FavoritesContext";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { addFavorite, removeFavorite } from "@/store/slices/favoritesSlice";
+import { selectIsFavorite } from "@/store/selectors/favoritesSelectors";
 import Link from "next/link";
 
 export default function ProductDetail({ product }: { product: Product }) {
-    const { isFavorite, addFavorite, removeFavorite } = useFavorites();
-    const favorite = isFavorite(product.id);
+    const dispatch = useAppDispatch();
+    const favorite = useAppSelector(selectIsFavorite(product.id));
 
     const toggleFavorite = () => {
         if (favorite) {
-            removeFavorite(product.id);
+            dispatch(removeFavorite(product.id));
         } else {
-            addFavorite(product);
+            dispatch(addFavorite(product));
         }
     };
 
@@ -63,8 +65,8 @@ export default function ProductDetail({ product }: { product: Product }) {
                         <button
                             onClick={toggleFavorite}
                             className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${favorite
-                                    ? "bg-red-50 text-red-600 hover:bg-red-100 border border-red-200"
-                                    : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-200"
+                                ? "bg-red-50 text-red-600 hover:bg-red-100 border border-red-200"
+                                : "bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-200"
                                 }`}
                         >
                             <svg
@@ -95,3 +97,4 @@ export default function ProductDetail({ product }: { product: Product }) {
         </div>
     );
 }
+
